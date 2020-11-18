@@ -13,15 +13,20 @@
 ./apt-init/prerequisites/yarn.sh && \
 
 ./apt-init/update.sh && \
-./apt-init/upgrade.sh && \
+
+if [[ "$CI" != "true" ]]; then
+  ./apt-init/upgrade.sh
+fi && \
 
 ./apt-init/installers/dev.sh && \
 ./apt-init/installers/config.sh && \
+./apt-init/installers/go.sh && \
+./apt-init/installers/cassandra.sh && \
 ./apt-init/installers/mongodb.sh && \
-./apt-init/installers/docker.sh && \
 ./apt-init/installers/yarn-global.sh && \
 
 ./apt-init/fix-permissions.sh && \
+./apt-init/setup-services.sh && \
 
 # Set fish as default shell
 log "Setting fish as default shell:" && \
